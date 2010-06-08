@@ -13,9 +13,8 @@ def voicedEndpoints_ns(input, samplingRate, smallestSegment=100, useZcCorrection
     background noise in general sounds like. If 'bgFile'
     is None, a default background profile is used.
     """
-    DATA_INSTALL_PATH='/usr/local/share/pywr/'
     if bgFile == None:
-        bgFile = DATA_INSTALL_PATH + "silence.wav"
+        bgFile = "silence.wav"
 
     from audio_utils import loadSpeech
     (silence, silenceSampleRate) = loadSpeech(bgFile)
