@@ -1,20 +1,18 @@
 #!/usr/bin/env python
+
+#-- normal standard lib imports --#
 import os
 import sys
 from math        import ceil, floor
 from optparse import OptionParser
-
-import cPickle
 import wave
-
-
-from numpy       import hstack, zeros, mean, std
-
-
-
 from array        import array as pyarray
 
-from numpy        import argmax, array, hstack, inf, max, round
+#-- sort of normal standard lib imports --#
+import cPickle
+
+#-- cpython-only dependencies --#
+from numpy        import argmax, array, hstack, inf, max, round, zeros, mean, std
 from scipy.signal import butter, cheby1, firwin, lfilter
 
 
