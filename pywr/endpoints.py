@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 #-- normal standard lib imports --#
-import os
+import math
 import sys
-from math        import ceil, floor
-from optparse import OptionParser
+import optparse
+import os
 import wave
 from array        import array as pyarray
 
@@ -12,7 +12,8 @@ from array        import array as pyarray
 import cPickle
 
 #-- cpython-only dependencies --#
-from numpy        import argmax, array, hstack, inf, max, round, zeros, mean, std
+import numpy
+from numpy        import array
 from scipy.signal import butter, cheby1, firwin, lfilter
 
 
@@ -30,9 +31,9 @@ def voicedEndpoints_ns(input, samplingRate, smallestSegment=100, useZcCorrection
         bgFile = "silence.wav"
 
     (silence, silenceSampleRate) = loadSpeech(bgFile)
-    numSilentPoints = floor(silenceSampleRate/10.0)
+    numSilentPoints = math.floor(silenceSampleRate/10.0)
 
-    input = hstack((silence[0:numSilentPoints], input))
+    input = numpy.hstack((silence[0:numSilentPoints], input))
     endpoints = voicedEndpoints(input, samplingRate, smallestSegment, useZcCorrection)
 
     # Shift endpoints back down by the amount of silence, since
@@ -74,23 +75,23 @@ def voicedEndpoints(input, samplingRate, smallestSegment=100, useZcCorrection=Fa
     # which should be true in the testing room.
 
     # ~10 ms window size.
-    windowSize = int(floor(samplingRate / 100.0))
+    windowSize = int(math.floor(samplingRate / 100.0))
 
     # ~10 ms window step.
-    windowStep = int(floor(samplingRate / 100.0))
+    windowStep = int(math.floor(samplingRate / 100.0))
     
     # Smallest segment size in samples.
-    smallestSamples = ceil((smallestSegment*samplingRate)/1000.0)
+    smallestSamples = math.ceil((smallestSegment*samplingRate)/1000.0)
 
     # Smallest segment size in windows.
-    smallestWindows = ceil(smallestSamples/windowSize)
+    smallestWindows = math.ceil(smallestSamples/windowSize)
 
     # Move the window across the input, count the
     # the number of zero crossings and the energy of 
     # each segment.
-    numWindows = int(floor((len(input)-windowSize) / windowStep)) + 1
-    zeroXings  = zeros(numWindows)
-    energy     = zeros(numWindows)
+    numWindows = int(math.floor((len(input)-windowSize) / windowStep)) + 1
+    zeroXings  = numpy.zeros(numWindows)
+    energy     = numpy.zeros(numWindows)
     for w in range(numWindows):
         window = input[w*windowStep : w*windowStep + windowSize]
         window = window[window!=0]
@@ -102,11 +103,11 @@ def voicedEndpoints(input, samplingRate, smallestSegment=100, useZcCorrection=Fa
                     zeroXings[w] += 1
 
     # Assume first ~100ms is silence.
-    numSilentWindows = int(floor( ((samplingRate / 10.0)-windowSize) / windowStep )) + 1
+    numSilentWindows = int(math.floor( ((samplingRate / 10.0)-windowSize) / windowStep )) + 1
 
     # Used later to refine endpoint estimate, ~250ms in length.
     if useZcCorrection:
-        numZcWindows = int(floor( ((samplingRate / 4.0)-windowSize) / windowStep )) + 1
+        numZcWindows = int(math.floor( ((samplingRate / 4.0)-windowSize) / windowStep )) + 1
     else:
         numZcWindows = 0
 
@@ -114,13 +115,13 @@ def voicedEndpoints(input, samplingRate, smallestSegment=100, useZcCorrection=Fa
     # crossings in a window is more than 2 sd away
     # from the amount in a window of silence, that 
     # window is likely not background noise.
-    izct = mean(zeroXings[0:numSilentWindows]) + 2*std(zeroXings[0:numSilentWindows])
+    izct = numpy.mean(zeroXings[0:numSilentWindows]) + 2*numpy.std(zeroXings[0:numSilentWindows])
 
     # Peak energy.
-    imx = max(energy)
+    imx = numpy.max(energy)
 
     # Mean energy during silence.
-    imn = mean(energy[0:numSilentWindows])
+    imn = numpy.mean(energy[0:numSilentWindows])
 
     # Lower energy threshold. The smaller of 3 percent
     # of the peak energy above silence energy, or four 
@@ -163,7 +164,7 @@ def voicedEndpoints(input, samplingRate, smallestSegment=100, useZcCorrection=Fa
             # window where the zc threshold was first surpassed.
             numSurpassed = 0
             firstWindow  = None
-            for wb in range(n1-1, max(n1-1-numZcWindows,numSilentWindows-1), -1):
+            for wb in range(n1-1, numpy.max(n1-1-numZcWindows,numSilentWindows-1), -1):
                 if zeroXings[wb] > izct:
                     numSurpassed += 1
                     firstWindow   = wb
@@ -194,7 +195,7 @@ def voicedEndpoints(input, samplingRate, smallestSegment=100, useZcCorrection=Fa
         # to the list and start looking for the next set.
         if n1 != None and n2 != None:
             if n2 - n1 >= smallestWindows:
-                pts = (int(ceil(n1*windowStep+windowSize/2.0)), int(ceil((n2+1)*windowStep-windowSize/2.0)))
+                pts = (int(math.ceil(n1*windowStep+windowSize/2.0)), int(math.ceil((n2+1)*windowStep-windowSize/2.0)))
                 endpoints.append(pts)
             p1 = None
             n1 = None
@@ -221,7 +222,7 @@ def loadSpeech(filename, startPos=0, endPos=None, samplingRate=11025):
     if endPos == None:
         endPos = f.getnframes()
     origSamplingRate = f.getframerate()
-    data = array( pyarray(sizes[f.getsampwidth()], f.readframes(endPos-startPos)) )
+    data = array(pyarray(sizes[f.getsampwidth()], f.readframes(endPos-startPos)) )
     f.close()
 
     # 2nd-order Butterworth filter.
@@ -239,14 +240,14 @@ def ix2ms(index, samplingRate):
     sampling rate for that vector, returns the
     equivalent time rounded to the nearest ms.
     """
-    return int(round((index*1000)/samplingRate))
+    return int(numpy.round((index*1000)/samplingRate))
 
 def ms2ix(time, samplingRate):
     """
     Given time in ms, returns the corresponding
     sample number.
     """
-    return int(round((time*samplingRate)/1000.0))
+    return int(numpy.round((time*samplingRate)/1000.0))
 
 def decimate(x, q, n=None, ftype='iir', axis=-1):
     """downsample the signal x by an integer factor q, using an order n filter
@@ -291,7 +292,7 @@ def decimate(x, q, n=None, ftype='iir', axis=-1):
 usage = "Usage: pywr_onsets.py [options] file1.wav [file2.wav file3.wav ..]\n\n" +\
         "For each wav file, a fileN.tpa file is generated with the detected onsets."
 
-optParse = OptionParser(usage=usage)
+optParse = optparse.OptionParser(usage=usage)
 optParse.add_option("--bgFile", help="Path to a .wav file with a recording of typical background noise. " +\
                                      "A default background profile (with little noise) is used if none provided.")
 (opts, args) = optParse.parse_args()
