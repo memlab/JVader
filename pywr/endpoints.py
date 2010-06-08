@@ -14,7 +14,7 @@ import cPickle
 #-- cpython-only dependencies --#
 import numpy
 from numpy        import array
-from scipy.signal import butter, cheby1, firwin, lfilter
+import scipy.signal
 
 
 def voicedEndpoints_ns(input, samplingRate, smallestSegment=100, useZcCorrection=False, bgFile=None):
@@ -229,8 +229,8 @@ def loadSpeech(filename, startPos=0, endPos=None, samplingRate=11025):
     low    =  1000
     high   = 16000
     nyq    = origSamplingRate/2.0
-    [b, a] = butter(2, [low/nyq, high/nyq], 'band')
-    data   = lfilter(b, a, data)
+    [b, a] = scipy.signal.butter(2, [low/nyq, high/nyq], 'band')
+    data   = scipy.signal.lfilter(b, a, data)
 
     return (decimate(data, origSamplingRate/samplingRate), samplingRate)
 
@@ -280,12 +280,12 @@ def decimate(x, q, n=None, ftype='iir', axis=-1):
         else:
             n = 8
     if ftype == 'fir':
-        b = firwin(n+1, 1./q, window='hamming')
-        y = lfilter(b, 1., x, axis=axis)
+        b = scipy.signal.firwin(n+1, 1./q, window='hamming')
+        y = scipy.signal.lfilter(b, 1., x, axis=axis)
     else:
-        (b, a) = cheby1(n, 0.05, 0.8/q)
+        (b, a) = scipy.signal.cheby1(n, 0.05, 0.8/q)
 
-        y = lfilter(b, a, x, axis=axis)
+        y = scipy.signal.lfilter(b, a, x, axis=axis)
 
     return y.swapaxes(0,axis)[::q].swapaxes(0,axis)
 
