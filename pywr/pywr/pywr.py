@@ -1,4 +1,3 @@
-from GausMixHMM   import GausMixHMM
 from endpoints    import voicedEndpoints_ns
 from mfcc         import mfcc
 from paths        import DATA_INSTALL_PATH
