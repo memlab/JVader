@@ -6,7 +6,7 @@ object Main {
 				"For each file the filename is printed followed by ordered pairs corresponding to predicted word endpoints."
 				   
 	def main(args: Array[String]) {
-		if (args.length < 1)	usageAndExit()
+		if (args.length < 1) usageAndExit()
 		val files = 
 			for {arg <- args} 
 				yield new java.io.File(arg)
