@@ -1,5 +1,4 @@
 from endpoints    import voicedEndpoints_ns
-from mfcc         import mfcc
 from paths        import DATA_INSTALL_PATH
 from array        import array as pyarray
 from numpy        import argmax, array, hstack, inf, max, round
