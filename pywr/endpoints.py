@@ -1,19 +1,16 @@
 #!/usr/bin/env python
 
-#-- normal standard lib imports --#
+#-- standard lib --#
+import array
+import cPickle
 import math
-import sys
 import optparse
 import os
+import sys
 import wave
-from array        import array as pyarray
 
-#-- sort of normal standard lib imports --#
-import cPickle
-
-#-- cpython-only dependencies --#
+#-- external dependencies --#
 import numpy
-from numpy        import array
 import scipy.signal
 
 
@@ -222,7 +219,7 @@ def loadSpeech(filename, startPos=0, endPos=None, samplingRate=11025):
     if endPos == None:
         endPos = f.getnframes()
     origSamplingRate = f.getframerate()
-    data = array(pyarray(sizes[f.getsampwidth()], f.readframes(endPos-startPos)) )
+    data = numpy.array(array.array(sizes[f.getsampwidth()], f.readframes(endPos-startPos)) )
     f.close()
 
     # 2nd-order Butterworth filter.
