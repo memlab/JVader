@@ -1,4 +1,3 @@
-from paths       import DATA_INSTALL_PATH
 from math        import ceil, floor
 from numpy       import hstack, zeros, mean, std
 
@@ -14,6 +13,7 @@ def voicedEndpoints_ns(input, samplingRate, smallestSegment=100, useZcCorrection
     background noise in general sounds like. If 'bgFile'
     is None, a default background profile is used.
     """
+    DATA_INSTALL_PATH='/usr/local/share/pywr/'
     if bgFile == None:
         bgFile = DATA_INSTALL_PATH + "silence.wav"
 
