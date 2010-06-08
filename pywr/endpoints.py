@@ -17,7 +17,7 @@ def voicedEndpoints_ns(input, samplingRate, smallestSegment=100, useZcCorrection
     if bgFile == None:
         bgFile = DATA_INSTALL_PATH + "silence.wav"
 
-    from pywr import loadSpeech
+    from audio_utils import loadSpeech
     (silence, silenceSampleRate) = loadSpeech(bgFile)
     numSilentPoints = floor(silenceSampleRate/10.0)
 

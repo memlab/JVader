@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-import pywr
+import audio_utils
 from optparse import OptionParser
 
 usage = "Usage: pywr_onsets.py [options] file1.wav [file2.wav file3.wav ..]\n\n" +\

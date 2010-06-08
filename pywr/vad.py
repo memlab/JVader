@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-import pywr
+import audio_utils
 from optparse import OptionParser
 
 usage = "Usage: pywr_onsets.py [options] file1.wav [file2.wav file3.wav ..]\n\n" +\
@@ -30,12 +30,12 @@ for file in files:
     if not os.access(tpaFile, os.F_OK) and not os.access(parFile, os.F_OK):
         (dir, filename) = os.path.split(file)
         print "Marking: ", filename[:-4]
-        (input, samplingRate) = pywr.loadSpeech(file)
-        endpoints = pywr.voicedEndpoints_ns(input, samplingRate, bgFile=opts.bgFile)
+        (input, samplingRate) = audio_utils.loadSpeech(file)
+        endpoints = audio_utils.voicedEndpoints_ns(input, samplingRate, bgFile=opts.bgFile)
    
         fd = open(tpaFile, "w")
         for i in range(len(endpoints)):
-            fd.write(str(pywr.ix2ms(endpoints[i][0], samplingRate)) + "\t" +\
+            fd.write(str(audio_utils.ix2ms(endpoints[i][0], samplingRate)) + "\t" +\
                      str(-1) + "\t" +\
                      "[???]\n")
         fd.close()
