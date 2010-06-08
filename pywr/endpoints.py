@@ -309,16 +309,12 @@ for i in range(len(args)):
 for file in files:
     tpaFile = file[:-4] + ".tpa"
     parFile = file[:-4] + ".par"
-    if not os.access(tpaFile, os.F_OK) and not os.access(parFile, os.F_OK):
-        (dir, filename) = os.path.split(file)
-        print "Marking: ", filename[:-4]
-        (input, samplingRate) = loadSpeech(file)
-        endpoints = voicedEndpoints_ns(input, samplingRate, bgFile=opts.bgFile)
-   
-        fd = open(tpaFile, "w")
-        for i in range(len(endpoints)):
-            fd.write(str(ix2ms(endpoints[i][0], samplingRate)) + "\t" +\
-                     str(-1) + "\t" +\
-                     "[???]\n")
-        fd.close()
+    (dir, filename) = os.path.split(file)
+    print "** marking ", filename + " **"
+    (input, samplingRate) = loadSpeech(file)
+    endpoints = voicedEndpoints_ns(input, samplingRate, bgFile=opts.bgFile)
+    for i in range(len(endpoints)):
+        start = str(ix2ms(endpoints[i][0], samplingRate))
+        end = str(ix2ms(endpoints[i][1], samplingRate))
+        print "(" + start + ", " + end + ")"
 
