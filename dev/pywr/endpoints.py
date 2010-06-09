@@ -25,7 +25,7 @@ def voicedEndpoints_ns(input, samplingRate, smallestSegment=100, useZcCorrection
     is None, a default background profile is used.
     """
     if bgFile == None:
-        bgFile = "../../resources/silence.wav"
+        bgFile = os.path.join(os.path.dirname(sys.argv[0]), "silence.wav")
 
     (silence, silenceSampleRate) = loadSpeech(bgFile)
     numSilentPoints = math.floor(silenceSampleRate/10.0)
