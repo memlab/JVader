@@ -14,7 +14,8 @@ class LoadSpeech(audioFile: File) {
 		val ais = AudioSystem.getAudioInputStream(audioFile);
 		val adds = new AudioDoubleDataSource(ais)
 		val samples = new Array[Double](adds.getDataLength.asInstanceOf[Int])
-		samples
+		adds.getData(samples)
+		samples		
 	}	
 }
 

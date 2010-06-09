@@ -18,7 +18,7 @@ object Main {
 			System.exit(1)
 		}
 		
-		def filterFile(name: String): List[File] = {
+		def filterFiles(name: String): List[File] = {
 			val file = new File(name)
 			if (file.exists)
 				List(file)
@@ -28,6 +28,11 @@ object Main {
 			}
 		}
 		
-		val files = args.flatMap(filterFile)
+		val files = args.flatMap(filterFiles)
+		
+		for (file <- files) {
+			val samples: Array[Double] = LoadSpeech(file).loadSpeech
+			println(samples.slice(10000, 10100).mkString(", "))
+		}
 	}
 }
