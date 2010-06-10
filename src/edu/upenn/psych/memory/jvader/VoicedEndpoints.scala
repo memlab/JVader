@@ -2,6 +2,8 @@ package edu.upenn.psych.memory.jvader
 
 import Math.{floor, ceil, max, min}
 
+import scala.collection.mutable.ListBuffer
+
 /** * 
  * Voice audio detection algorithm similar to the one described in Rabiner and Sambur (1975).
  * We've refined things to detect multiple utterances.
@@ -29,7 +31,7 @@ object VoicedEndpoints {
 	 * 
 	 * @return A <tt>List</tt> of tuples of the form (voiceStarts, voiceEnds), in order, in milliseconds
 	 */
-	def voicedEndpoints(input: Array[Double], samplingRate: Int) = List[Tuple2[Double, Double]] {
+	def voicedEndpoints(input: Array[Double], samplingRate: Int): List[(Int, Int)] = {
 		//~10ms window size
 		val windowSize: Int = floor(samplingRate / 100.0).toInt
 
@@ -76,16 +78,85 @@ object VoicedEndpoints {
 		val itu = 5 * itl
 		
 		//look for a window with energy below the lower threshold
+		var endpoints = new ListBuffer[(Int, Int)]
 		var p1 = -1
 		var n1 = -1
 		var n2 = -1
 		for (i <- 0 until numWindows) {
 			//if we don't have a potential starting point and we found a window with energy greater than the
 			//lower threshold, mark it as a potential starting point
+			if (p1 < 0 && energy(i) >= itl)
+				p1 = i
 			
+			//if we have a potential starting point and the current energy is less than the lower threshold,
+			//unmark the currently marked starting point
+			if (p1 >= 0 && energy(i) < itl)
+				p1 = -1
+
+			/* 
+			 * if we haven't found the real starting point, but we have a potential starting point and we either
+			 * found a window with energy greater than the upper threshold or the lower energy threshold has
+			 * been maintained for more than twice the smallest segment, mark the "potential" starting point as a real
+			 * starting point. the criterion of maintaining the lower energy threshold for a period of time without
+			 * crossing the upper energy threshold is something that did not appear in Rabiner and Sambur (1975),
+			 * but has been found to be useful with our sound files
+			 */
+			if (n1 < 0 && p1 >= 0 && (energy(i) >= itu || i - p1 >= 2 * smallestWindows)) {
+				n1 = p1
+				
+				//as a further refinement, look at the previous numZcWindows windows. if three or more exceed
+				//the zc threshold, set the starting point to the window where the zc threshold was first surpassed
+				var numSurpassed = 0
+				var firstWindow = -1
+				for (wb <- (n1 - 1).until(max(n1 - 1 - numZcWindows, numSilentWindows - 1), -1)) {
+					if (zeroXings(wb) > izct) {
+						numSurpassed += 1
+						firstWindow = wb
+					}
+				}
+				if (numSurpassed >= 3)
+					n1 = firstWindow
+			}
+			
+			//if we have a real starting point, but no ending point, and the current window is below the lower
+			//energy threshold, mark the previous window as the ending point.
+			if (n1 > 0 && n2 < 0 && energy(i) < itl) {
+				n2 = i - 1
+				
+				//as a further refinement, look at the next numZcWindows windows.
+				//if three or more exceed the zc threshold, set the ending point to the window where the zc threshold
+				//was last surpassed
+				var numSurpassed = 0
+				var lastWindow = -1
+				for (wb <- (n2 + 1) until min(n2 + 1 + numZcWindows, numWindows)) {
+					if (zeroXings(wb) > izct) {
+						numSurpassed += 1
+						lastWindow = wb
+					}
+				}
+				if (numSurpassed >= 3)
+					n2 = lastWindow
+			}
+			
+			//if we have a real starting point, but no ending point, and this is the last frame, mark this as the ending
+			if (n1 > 0 && n2 < 0 && i == numWindows - 1)
+				n2 = i
+				
+			//if we found both a starting point and an ending point, add them to the list and start looking for the
+			//next set
+			if(n1 > 0 && n2 > 0) {
+				if ((n2 - n1) >= smallestWindows) {
+					val pts: (Double, Double) = 
+						(ceil(n1 * windowStep + windowSize / 2.0).toInt, 
+								ceil((n2 + 1) * windowStep - windowSize / 2.0).toInt)
+				}
+				p1 = -1
+				n1 = -1
+				n2 = -1
+			}
 		}
 		
-		null
+		endpoints.toList
 	}
 	
 	private def mean(arr: Array[Double]): Double = {

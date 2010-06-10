@@ -38,6 +38,9 @@ object Main {
 		val lines = Source.fromFile(new File("/home/yuvi/workspace/JVader/dev/pywr/input_to_voicedEndpoints.txt")).getLines("\n")
 		val input: Array[Double] = 
 			(for (line <- lines) yield line.toDouble).toArray
-		VoicedEndpoints.voicedEndpoints(input, 11025)
+		val endPoints = VoicedEndpoints.voicedEndpoints(input, 11025)
+		println("found: " + endPoints.size + " endpoints")
+		for (el <- endPoints)
+			println(el)
 	}
 }
