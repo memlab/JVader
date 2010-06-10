@@ -7,7 +7,7 @@
   <property name="lib.name"
             value="JVader"/>
   <property name="main.class"
-            value="edu.upenn.psych.memory.jvader.Start"/>
+            value="edu.upenn.psych.memory.jvader.Main"/>
   <property name="vendor.name"
             value="Computational Memory Lab, UPenn"/>
 
