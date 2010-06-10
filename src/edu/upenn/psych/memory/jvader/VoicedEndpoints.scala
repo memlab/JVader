@@ -1,6 +1,6 @@
 package edu.upenn.psych.memory.jvader
 
-import Math.{floor, ceil}
+import Math.{floor, ceil, max, min}
 
 /** * 
  * Voice audio detection algorithm similar to the one described in Rabiner and Sambur (1975).
@@ -18,6 +18,8 @@ object VoicedEndpoints {
 	 * Helps eliminate short-lived popping and lip smacking.
 	 */
 	val smallestSegment = 100
+	
+	val IzctConstant = 0
 	
 	/**
 	 * Detect human speech in provided audio samples.
@@ -44,7 +46,6 @@ object VoicedEndpoints {
 		val numWindows: Int = (floor((input.length - windowSize) / windowStep)).toInt + 1
 		val zeroXings = new Array[Double](numWindows)
 		val energy = new Array[Double](numWindows)
-		
 		for (i <- 0 until numWindows) {
 			val window = input.slice(i * windowStep, i * windowStep + windowSize)
 			val correctedWindow = window.filter(_ != 0)
@@ -53,7 +54,44 @@ object VoicedEndpoints {
 			energy(i) = correctedWindow.sum
 		}
 
+		//assume first ~100ms is silence
+		val numSilentWindows = (math.floor(((samplingRate / 10.0) - windowSize) / windowStep) + 1).toInt
+		val numZcWindows = 0
+		
+		//zero-crossing threshold. if the number of zero crossings in a window is more than 2 standard deviations
+		//away from the number in a window of silence, that window is likely not background noise
+		val izct = IzctConstant
+		
+		//peak energy
+		val imx = energy.max
+		
+		//mean energy during silence
+		val imn = mean(energy.slice(0, numSilentWindows))
+		
+		//lower energy threshold.
+		//the smaller of 3 percent of the peak energy above silence energy, or four times the silence energy
+		val itl = min(0.03 * (imx - imn) + imn, 4 * imn)
+		
+		//upper energy threshold
+		val itu = 5 * itl
+		
+		//look for a window with energy below the lower threshold
+		var p1 = -1
+		var n1 = -1
+		var n2 = -1
+		for (i <- 0 until numWindows) {
+			//if we don't have a potential starting point and we found a window with energy greater than the
+			//lower threshold, mark it as a potential starting point
+			
+		}
 		
 		null
+	}
+	
+	private def mean(arr: Array[Double]): Double = {
+		var sum = 0.0
+		for (el <- arr)
+			sum = sum + el
+		sum/arr.length
 	}
 }

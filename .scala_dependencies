@@ -1,17 +1,19 @@
 /home/yuvi/workspace/JVader/bin:/opt/eclipse/configuration/org.eclipse.osgi/bundles/311/1/.cp/lib/scala-library.jar:/opt/eclipse/configuration/org.eclipse.osgi/bundles/311/1/.cp/lib/scala-dbc.jar:/opt/eclipse/configuration/org.eclipse.osgi/bundles/311/1/.cp/lib/scala-swing.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/resources.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/rt.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/jsse.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/jce.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/charsets.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/rhino.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/ext/pulse-java.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/ext/gnome-java-bridge.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/ext/localedata.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/ext/dnsns.jar:/home/yuvi/workspace/JVader/lib/signalproc.jar
 -------
-/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/LoadSpeech.scala -> /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/LoadSpeech.scala
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/Main.scala -> /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/Main.scala
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/Main.scala -> /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala
 -------
-/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$.class
-/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$1$$anonfun$1.class
-/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$1$$anonfun$apply$mcVI$sp$1.class
-/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$1.class
-/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints.class
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/LoadSpeech.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/LoadSpeech.class
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/LoadSpeech.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/LoadSpeech$.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$1.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$2.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$1$$anonfun$1.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$voicedEndpoints$1$$anonfun$apply$mcVI$sp$1.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints.class
+/home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/VoicedEndpoints.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/VoicedEndpoints$$anonfun$mean$1.class
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/Main.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/Main$$anonfun$2.class
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/Main.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/Main$.class
 /home/yuvi/workspace/JVader/src/edu/upenn/psych/memory/jvader/Main.scala -> /home/yuvi/workspace/JVader/bin/edu/upenn/psych/memory/jvader/Main$$anonfun$main$1.class
