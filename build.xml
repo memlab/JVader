@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Apache Ant build file for JVader.
+
+    Run with:
+    ant -Dscala.lib="/path/to/scala-library.jar" -Dscalac="/path/to/scala-compiler.jar"
+-->
+
 <project default="jar" 
          name="JVader - Voice audio detection for the JVM" 
          basedir=".">
@@ -10,12 +17,6 @@
             value="edu.upenn.psych.memory.jvader.Main"/>
   <property name="vendor.name"
             value="Computational Memory Lab, UPenn"/>
-
-  <!-- absolute path variables -->
-  <property name="scala.lib" 
-            location="/usr/share/java/scala-library.jar"/>
-  <property name="scalac" 
-            location="/usr/share/java/scala-compiler.jar"/>
 
   <!-- relative path variables -->
   <property name="bin" 
