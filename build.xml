@@ -36,9 +36,9 @@
 
   <target name="-init">
     <fail unless="scala.lib"
-          message="Location of scala-library.jar not provided! Please see documentation in build.xml."/>
+          message="Location of scala-library.jar not provided! Use -Dscala.lib='/path/to/scala-library.jar'."/>
     <fail unless="scalac" 
-          message="Location of scala-compiler.jar not provided! Please see documentation in build.xml."/>
+          message="Location of scala-compiler.jar not provided! Use -Dscalac='/path/to/scala-compiler.jar'."/>
     <path id="build.classpath">
       <pathelement location="${scala.lib}"/>
       <pathelement location="${bin}"/>
