@@ -120,7 +120,7 @@ object VoicedEndpoints {
 			
 			//if we have a real starting point, but no ending point, and the current window is below the lower
 			//energy threshold, mark the previous window as the ending point.
-			if (n1 > 0 && n2 < 0 && energy(i) < itl) {
+			if (n1 >= 0 && n2 < 0 && energy(i) < itl) {
 				n2 = i - 1
 				
 				//as a further refinement, look at the next numZcWindows windows.
@@ -139,7 +139,7 @@ object VoicedEndpoints {
 			}
 			
 			//if we have a real starting point, but no ending point, and this is the last frame, mark this as the ending
-			if (n1 > 0 && n2 < 0 && i == numWindows - 1)
+			if (n1 >= 0 && n2 < 0 && i == numWindows - 1)
 				n2 = i
 				
 			//if we found both a starting point and an ending point, add them to the list and start looking for the
