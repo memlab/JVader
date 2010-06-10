@@ -41,6 +41,10 @@ object Main {
 		val endPoints = VoicedEndpoints.voicedEndpoints(input, 11025)
 		println("found: " + endPoints.size + " endpoints")
 		for (el <- endPoints)
-			println(el)
+			println((framesToMillis(el._1, 11025).round, framesToMillis(el._2, 11025).round))
+	}
+	
+	private def framesToMillis(index: Int, samplingRate: Int): Double = {
+		(index * 1000.0) / samplingRate
 	}
 }

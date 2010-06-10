@@ -1,6 +1,6 @@
 package edu.upenn.psych.memory.jvader
 
-import Math.{floor, ceil, max, min}
+import Math.{floor, ceil, max, min, round}
 
 import scala.collection.mutable.ListBuffer
 
@@ -149,7 +149,7 @@ object VoicedEndpoints {
 					val pts: (Int, Int) = 
 						(ceil(n1 * windowStep + windowSize / 2.0).toInt, 
 								ceil((n2 + 1) * windowStep - windowSize / 2.0).toInt)
-					endpoints.append(pts)	
+					endpoints.append(pts)
 				}
 				p1 = -1
 				n1 = -1
