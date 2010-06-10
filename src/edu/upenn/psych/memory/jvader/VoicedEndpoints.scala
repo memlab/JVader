@@ -146,9 +146,10 @@ object VoicedEndpoints {
 			//next set
 			if(n1 > 0 && n2 > 0) {
 				if ((n2 - n1) >= smallestWindows) {
-					val pts: (Double, Double) = 
+					val pts: (Int, Int) = 
 						(ceil(n1 * windowStep + windowSize / 2.0).toInt, 
 								ceil((n2 + 1) * windowStep - windowSize / 2.0).toInt)
+					endpoints.append(pts)	
 				}
 				p1 = -1
 				n1 = -1
