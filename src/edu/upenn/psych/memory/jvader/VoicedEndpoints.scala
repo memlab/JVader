@@ -1,5 +1,7 @@
 package edu.upenn.psych.memory.jvader
 
+import Math.{floor, ceil}
+
 /** * 
  * Voice audio detection algorithm similar to the one described in Rabiner and Sambur (1975).
  * We've refined things to detect multiple utterances.
@@ -25,18 +27,32 @@ object VoicedEndpoints {
 	 * 
 	 * @return A <tt>List</tt> of tuples of the form (voiceStarts, voiceEnds), in order, in milliseconds
 	 */
-	def voicedEndpoints(input: Array[Double], samplingRate: Int) = List[Tuple2[Double, Double]]{
-		val windowSize: Int = Math.floor(samplingRate / 100.0).toInt
-		println("windowSize: " + windowSize)
-		val windowStep: Int = Math.floor(samplingRate / 100.0).toInt
-		println("windowStep: " + windowStep)
-		val numWindows = (Math.floor((input.length - windowSize) / windowStep)).toInt + 1
-		println("numWindows: " + numWindows)
+	def voicedEndpoints(input: Array[Double], samplingRate: Int) = List[Tuple2[Double, Double]] {
+		//~10ms window size
+		val windowSize: Int = floor(samplingRate / 100.0).toInt
+
+		//~10ms window step
+		val windowStep: Int = floor(samplingRate / 100.0).toInt		
 		
-		val smallestSamples: Double = Math.ceil((smallestSegment * samplingRate) / 100.0)
-		println("smallestSamples: " + smallestSamples)
-		val smallestWindows: Double = Math.ceil(smallestSamples / windowSize)
-		println("smallestWindows: " + smallestWindows)
+		//smallest segment in samples
+		val smallestSamples: Double = ceil((smallestSegment * samplingRate) / 1000.0)
+		
+		//smallest segment size in windows
+		val smallestWindows: Double = ceil(smallestSamples / windowSize)
+
+		//move the window across the input, count the number of zero crossings and the energy of each segment
+		val numWindows: Int = (floor((input.length - windowSize) / windowStep)).toInt + 1
+		val zeroXings = new Array[Double](numWindows)
+		val energy = new Array[Double](numWindows)
+		
+		for (i <- 0 until numWindows) {
+			val window = input.slice(i * windowStep, i * windowStep + windowSize)
+			val correctedWindow = window.filter(_ != 0)
+			for (j <- 0 until correctedWindow.length)				
+				correctedWindow(j) = correctedWindow(j).abs
+			energy(i) = correctedWindow.sum
+		}
+
 		
 		null
 	}
