@@ -2,6 +2,8 @@ package edu.upenn.psych.memory.jvader
 
 import java.io.File
 
+import scala.io._
+
 /**
  * Entry point of application.
  * 
@@ -31,8 +33,11 @@ object Main {
 		val files = args.flatMap(filterFiles)
 		
 		for (file <- files) {
-			val samples: Array[Double] = LoadSpeech(file).loadSpeech
-			println(samples.slice(10000, 10100).mkString(", "))
 		}
+		
+		val lines = Source.fromFile(new File("/home/yuvi/workspace/JVader/dev/pywr/input_to_voicedEndpoints.txt")).getLines("\n")
+		val input: Array[Double] = 
+			(for (line <- lines) yield line.toDouble).toArray
+		VoicedEndpoints.voicedEndpoints(input, 44100)
 	}
 }
