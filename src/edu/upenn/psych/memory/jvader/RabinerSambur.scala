@@ -27,9 +27,16 @@ object RabinerSambur extends VoiceEndpointer {
 	
 	def findEndpoints(audioFile: File): List[(Int, Int)] = {
 		
-		val loader = new SampleLoader(audioFile)
-		val input = loader.loadSamples
-		val samplingRate = loader.sampleRate
+		val realLoader = SampleLoader(audioFile)
+		val realInput = realLoader.loadSamples
+		val samplingRate = realLoader.sampleRate
+		
+		val silenceLoader = SampleLoader(audioFile)
+		val numSilenceSamples = (.1 * silenceLoader.sampleRate).toInt
+		val silenceInput = silenceLoader.loadSamples(numSilenceSamples) //prepend 100ms of silence
+		
+		val input = silenceInput ++ realInput
+
 		
 		//~10ms window size
 		val windowSize: Int = floor(samplingRate / 100.0).toInt
@@ -156,7 +163,8 @@ object RabinerSambur extends VoiceEndpointer {
 			}
 		}
 		
-		endpoints.toList
+		val adjustedEndpoints = for ((start, end) <- endpoints) yield (start - numSilenceSamples, end - numSilenceSamples)
+		adjustedEndpoints.toList
 	}
 	
 	private def mean(arr: Array[Double]): Double = {
