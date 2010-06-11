@@ -62,7 +62,9 @@
     <mkdir dir="${bin}"/>
     <scalac srcdir="${src}"
             destdir="${bin}"
-            classpathref="build.classpath">
+            classpathref="build.classpath"
+            deprecation="on"
+            unchecked="on">
     </scalac>
   </target>
 
