@@ -33,7 +33,10 @@ object Main {
 		val files = args.flatMap(filterFiles)
 		
 		for (file <- files) {
-			RabinerSambur.findEndpoints(file)
+			val endpoints = RabinerSambur.findEndpoints(file)
+			println("#" + file.getAbsolutePath)
+			for (ep <- endpoints)
+				println(ep)
 		}
 	}
 }
