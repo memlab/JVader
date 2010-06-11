@@ -1,5 +1,7 @@
 package edu.upenn.psych.memory.jvader
 
+import java.io.File
+
 import Math.{floor, ceil, max, min, round}
 
 import scala.collection.mutable.ListBuffer
@@ -13,7 +15,7 @@ import scala.collection.mutable.ListBuffer
  * 
  * @author original Computational Memory Lab authors, port by Yuvi Masory
  */
-object VoicedEndpoints {
+object RabinerSambur extends VoiceEndpointer {
 
 	/**
 	 * The length of the smallest utterance to keep, in milliseconds.
@@ -23,15 +25,12 @@ object VoicedEndpoints {
 	
 	val IzctConstant = 0
 	
-	/**
-	 * Detect human speech in provided audio samples.
-	 * 
-	 * @param input - Audio samples
-	 * @samplingRate - The audio sampling rate of <tt>input</tt>
-	 * 
-	 * @return A <tt>List</tt> of tuples of the form (voiceStarts, voiceEnds), in order, in milliseconds
-	 */
-	def voicedEndpoints(input: Array[Double], samplingRate: Int): List[(Int, Int)] = {
+	def findEndpoints(audioFile: File): List[(Int, Int)] = {
+		
+		val loader = new SampleLoader(audioFile)
+		val input = loader.loadSamples
+		val samplingRate = loader.sampleRate
+		
 		//~10ms window size
 		val windowSize: Int = floor(samplingRate / 100.0).toInt
 
