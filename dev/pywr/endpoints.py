@@ -310,11 +310,10 @@ for file in files:
     tpaFile = file[:-4] + ".tpa"
     parFile = file[:-4] + ".par"
     (dir, filename) = os.path.split(file)
-    print "** marking ", filename + " **"
+    print "#" + str(os.path.abspath(file))
     (input, samplingRate) = loadSpeech(file)
     endpoints = voicedEndpoints_ns(input, samplingRate, bgFile=opts.bgFile)
     for i in range(len(endpoints)):
-        start = str(ix2ms(endpoints[i][0], samplingRate))
-        end = str(ix2ms(endpoints[i][1], samplingRate))
-        print "(" + start + ", " + end + ")"
+        print "(" + str(int(endpoints[i][0])) + "," + str(int(endpoints[i][1])) + ")"
+
 
