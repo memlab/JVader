@@ -33,14 +33,7 @@ object Main {
 		val files = args.flatMap(filterFiles)
 		
 		for (file <- files) {
+			RabinerSambur.findEndpoints(file)
 		}
-		
-		val lines = Source.fromFile(new File("/home/yuvi/workspace/JVader/dev/pywr/input_to_voicedEndpoints.txt")).getLines("\n")
-		val input: Array[Double] = 
-			(for (line <- lines) yield line.toDouble).toArray
-		val endPoints = VoicedEndpoints.voicedEndpoints(input, 11025)
-		println("found: " + endPoints.size + " endpoints")
-		for (el <- endPoints)
-			println(el)
 	}
 }
