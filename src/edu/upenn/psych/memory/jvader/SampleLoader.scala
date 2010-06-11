@@ -14,12 +14,7 @@ class SampleLoader(val audioFile: File) {
 		val nSamples = new Array[Double](adds.getDataLength.toInt)
 		adds.getData(nSamples)
 		val samples = new Array[Double](nSamples.length)
-		
-		val deNormConstant = ais.getFormat().getFrameSize match {
-			case 8 => Math.pow(2, 7)
-			case 16 => Math.pow(2, 15)
-			case 32 => Math.pow(2, 31)
-		}		
+		val deNormConstant = ais.getFormat().getFrameSize * 8 - 1
 		for (i <- 0 until nSamples.length)
 			samples(i) = nSamples(i) * deNormConstant //de-normalize the data
 		
