@@ -202,7 +202,7 @@ def voicedEndpoints(input, samplingRate, smallestSegment=100, useZcCorrection=Fa
             
 
 
-def loadSpeech(filename, startPos=0, endPos=None, samplingRate=11025):
+def loadSpeech(filename, startPos=0, endPos=None, samplingRate=44100):
     """
     Loads the given wave file, filters out non-speech frequencies,
     downsamples the signal if necessary, and returns a 2-tuple
@@ -223,13 +223,13 @@ def loadSpeech(filename, startPos=0, endPos=None, samplingRate=11025):
     f.close()
 
     # 2nd-order Butterworth filter.
-    low    =  1000
-    high   = 16000
-    nyq    = origSamplingRate/2.0
-    [b, a] = scipy.signal.butter(2, [low/nyq, high/nyq], 'band')
-    data   = scipy.signal.lfilter(b, a, data)
+#    low    =  1000
+#    high   = 16000
+#    nyq    = origSamplingRate/2.0
+#    [b, a] = scipy.signal.butter(2, [low/nyq, high/nyq], 'band')
+#    data   = scipy.signal.lfilter(b, a, data)
 
-    return (decimate(data, origSamplingRate/samplingRate), samplingRate)
+    return (data, samplingRate)
 
 def ix2ms(index, samplingRate):
     """
@@ -246,45 +246,6 @@ def ms2ix(time, samplingRate):
     """
     return int(numpy.round((time*samplingRate)/1000.0))
 
-def decimate(x, q, n=None, ftype='iir', axis=-1):
-    """downsample the signal x by an integer factor q, using an order n filter
-    
-    By default, an order 8 Chebyshev type I filter is used or a 30 point FIR 
-    filter with hamming window if ftype is 'fir'.
-
-    (port to python of the GNU Octave function decimate.)
-
-    Inputs:
-        x -- the signal to be downsampled (N-dimensional array)
-        q -- the downsampling factor
-        n -- order of the filter (1 less than the length of the filter for a
-             'fir' filter)
-        ftype -- type of the filter; can be 'iir' or 'fir'
-        axis -- the axis along which the filter should be applied
-    
-    Outputs:
-        y -- the downsampled signal
-
-    This function was borrowed from snippets.dzone.com
-    """
-
-    if type(q) != type(1):
-        raise Error, "q should be an integer"
-
-    if n is None:
-        if ftype == 'fir':
-            n = 30
-        else:
-            n = 8
-    if ftype == 'fir':
-        b = scipy.signal.firwin(n+1, 1./q, window='hamming')
-        y = scipy.signal.lfilter(b, 1., x, axis=axis)
-    else:
-        (b, a) = scipy.signal.cheby1(n, 0.05, 0.8/q)
-
-        y = scipy.signal.lfilter(b, a, x, axis=axis)
-
-    return y.swapaxes(0,axis)[::q].swapaxes(0,axis)
 
 usage = "Usage: pywr_onsets.py [options] file1.wav [file2.wav file3.wav ..]\n\n" +\
         "For each wav file, a fileN.tpa file is generated with the detected onsets."
@@ -312,7 +273,7 @@ for file in files:
     (dir, filename) = os.path.split(file)
     print "#" + str(os.path.abspath(file))
     (input, samplingRate) = loadSpeech(file)
-    endpoints = voicedEndpoints_ns(input, samplingRate, bgFile=opts.bgFile)
+    endpoints = voicedEndpoints(input, samplingRate)
     for i in range(len(endpoints)):
         print "(" + str(int(endpoints[i][0])) + "," + str(int(endpoints[i][1])) + ")"
 
