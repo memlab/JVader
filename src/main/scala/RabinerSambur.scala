@@ -2,7 +2,7 @@ package edu.upenn.psych.memory.jvader
 
 import java.io.File
 
-import Math.{floor, ceil, max, min, round}
+import java.lang.Math.{floor, ceil, max, min, round}
 
 import scala.collection.mutable.ListBuffer
 
