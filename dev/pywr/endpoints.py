@@ -223,11 +223,11 @@ def loadSpeech(filename, startPos=0, endPos=None, samplingRate=44100):
     f.close()
 
     # 2nd-order Butterworth filter.
-#    low    =  1000
-#    high   = 16000
-#    nyq    = origSamplingRate/2.0
-#    [b, a] = scipy.signal.butter(2, [low/nyq, high/nyq], 'band')
-#    data   = scipy.signal.lfilter(b, a, data)
+    low    =  1000
+    high   = 16000
+    nyq    = origSamplingRate/2.0
+    [b, a] = scipy.signal.butter(2, [low/nyq, high/nyq], 'band')
+    data   = scipy.signal.lfilter(b, a, data)
 
     return (data, samplingRate)
 
